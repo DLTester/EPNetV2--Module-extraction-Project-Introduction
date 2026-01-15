@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Grid-level 融合概述 - IL-Fusion 融合模块文档</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/overrides.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Grid-level \u878d\u5408\u6982\u8ff0";
+        var mkdocs_page_input_path = "Grid_level_Fusion.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> IL-Fusion 融合模块文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">文档首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Point-level Fusion</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Point_level_Fusion/">Point-level 融合概述</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Grid-level Fusion</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Grid-level 融合概述</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#api">API 文档</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#point_to_grid_scatter">point_to_grid_scatter</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Grid_level_Fusion.operator.point_to_grid_scatter">point_to_grid_scatter</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Grid_level_Fusion.operator.point_to_grid_scatter.point_to_grid_scatter">point_to_grid_scatter</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_concat">il_fusion_concat</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Grid_level_Fusion.operator.il_fusion_concat">il_fusion_concat</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Grid_level_Fusion.operator.il_fusion_concat.il_fusion_concat">il_fusion_concat</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_conv2d_fusion">il_fusion_conv2d_fusion</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion">il_fusion_conv2d_fusion</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion">ILFusionConv2DFusion</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_1">结构说明（按顺序）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_2">输入</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_3">输出</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_4">模块用途</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion.forward">forward</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">IL-Fusion 框架</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../framework/">融合流程与接口设计</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">IL-Fusion 融合模块文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Grid-level Fusion</li>
+      <li class="breadcrumb-item active">Grid-level 融合概述</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="grid-level-fusion">Grid-level Fusion（网格级融合）<a class="headerlink" href="#grid-level-fusion" title="Permanent link">&para;</a></h1>
+<p>本阶段的作用是 <strong>将点级融合特征映射并融合到规则 BEV 网格空间中</strong>，
+通过点到网格的聚合与 BEV 特征融合，构建统一的网格级多模态表示，
+为后续基于 BEV 的卷积融合与检测提供输入特征。</p>
+<p>本阶段包含三个核心算子：</p>
+<ol>
+<li>
+<p><strong>point_to_grid_scatter</strong><br />
+   将点级融合特征按照点到网格的映射关系 scatter 到 BEV 网格中，完成点 → 网格的特征聚合。</p>
+</li>
+<li>
+<p><strong>il_fusion_concat</strong><br />
+   对来自不同模态或不同分支的 BEV 特征进行通道维拼接，形成融合后的网格特征。</p>
+</li>
+<li>
+<p><strong>il_fusion_conv2d_fusion</strong><br />
+   基于 2D 卷积的网格级融合网络，对拼接后的 BEV 特征进行空间上下文建模与融合增强。</p>
+</li>
+</ol>
+<hr />
+<h2 id="api">API 文档<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<h3 id="point_to_grid_scatter">point_to_grid_scatter<a class="headerlink" href="#point_to_grid_scatter" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Grid_level_Fusion.operator.point_to_grid_scatter"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="Grid_level_Fusion.operator.point_to_grid_scatter.point_to_grid_scatter" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">point_to_grid_scatter</span><span class="p">(</span><span class="n">point_features</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">,</span> <span class="n">grid_h</span><span class="p">,</span> <span class="n">grid_w</span><span class="p">)</span></code>
+
+<a href="#Grid_level_Fusion.operator.point_to_grid_scatter.point_to_grid_scatter" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>IL-Fusion 模块中的点到栅格映射算子（Point-to-Grid Scatter Operator）。</p>
+<p>将点级特征按照其在 BEV 网格中的索引位置，
+累加映射到规则的二维 BEV 网格特征图中，
+用于从 Point-level Fusion 过渡到 Grid-level Fusion。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>point_features</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>点级特征张量，shape 为 (B, N, C)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>point_indices</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>点在 BEV 网格中的索引，shape 为 (B, N, 2)，
+分别表示 (y, x) 网格坐标</p>
+              </div>
+            </li>
+            <li>
+              <b><code>grid_h</code></b>
+                  (<code>int</code>)
+              –
+              <div class="doc-md-description">
+                <p>BEV 网格高度</p>
+              </div>
+            </li>
+            <li>
+              <b><code>grid_w</code></b>
+                  (<code>int</code>)
+              –
+              <div class="doc-md-description">
+                <p>BEV 网格宽度</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor:
+BEV 网格特征张量，shape 为 (B, C, grid_h, grid_w)</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_concat">il_fusion_concat<a class="headerlink" href="#il_fusion_concat" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Grid_level_Fusion.operator.il_fusion_concat"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="Grid_level_Fusion.operator.il_fusion_concat.il_fusion_concat" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">il_fusion_concat</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+
+<a href="#Grid_level_Fusion.operator.il_fusion_concat.il_fusion_concat" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>IL-Fusion 模块中的特征拼接算子（Concat Operator）。</p>
+<p>将多个输入张量在指定维度上拼接，用于融合阶段整合点云与图像特征或多通道特征流。
+拼接后的结果在输出前会被 clone，以避免内存别名问题。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>tensors</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="torch.Tensor">Tensor</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>要拼接的特征张量列表，每个张量形状一致。
+例如 [Fp_, Fi_gated]，均为 (B, D, N)。</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dim</code></b>
+                  (<code>int</code>, default:
+                      <code>1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>拼接维度（默认 1，对应通道维）。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor: 拼接后的融合特征张量。
+形状根据拼接维度扩展，例如输入 (B, D, N) + (B, D, N) → 输出 (B, 2D, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_conv2d_fusion">il_fusion_conv2d_fusion<a class="headerlink" href="#il_fusion_conv2d_fusion" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Grid_level_Fusion.network.il_fusion_conv2d_fusion"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion" class="doc doc-heading">
+            <code>ILFusionConv2DFusion</code>
+
+
+<a href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.nn.Module">Module</span></code></p>
+
+
+        <p>IL-Fusion 二维卷积融合模块（Conv2D Fusion Operator）。</p>
+<p>该模块用于对经过 Point-to-Grid_level_Fusion 映射并完成特征拼接后的二维栅格特征
+进行空间卷积建模，从而在规则网格空间中进一步融合点云特征与图像特征，
+提取具有局部空间一致性的融合表示。</p>
+<p>其输入通常来自多个点级融合特征在二维栅格上的聚合结果，
+通过标准的二维卷积操作，在保持空间拓扑结构的前提下，
+对不同模态信息进行联合建模与增强表达。</p>
+<p>本模块属于 <strong>可学习算子</strong>，其参数在训练过程中根据检测或分割
+等下游任务的监督信号进行更新。</p>
+<hr />
+<h5 id="Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_1">结构说明（按顺序）<a class="headerlink" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_1" title="Permanent link">&para;</a></h5>
+<ol>
+<li><strong>Conv2d C_in → C_out, kernel=3, padding=1</strong></li>
+<li>在二维栅格空间中对融合特征进行局部感受野建模。</li>
+<li><strong>BatchNorm2d</strong></li>
+<li>稳定特征分布，加速训练收敛。</li>
+<li><strong>ReLU 激活</strong></li>
+<li>引入非线性表达能力，提升融合特征判别性。</li>
+</ol>
+<p>（可根据需要堆叠多层 Conv2d，本实现给出最基础且通用的单层版本。）</p>
+<hr />
+<h5 id="Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_2">输入<a class="headerlink" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_2" title="Permanent link">&para;</a></h5>
+<p>Args:
+    grid_features (torch.Tensor):
+        二维栅格融合特征张量，shape 为 <strong>(B, C_in, H, W)</strong>
+        - B：batch size
+        - C_in：拼接后的融合特征通道数
+        - H：栅格高度
+        - W：栅格宽度</p>
+<hr />
+<h5 id="Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_3">输出<a class="headerlink" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_3" title="Permanent link">&para;</a></h5>
+<p>Returns:
+    torch.Tensor:
+        二维融合特征张量，shape 为 <strong>(B, C_out, H, W)</strong></p>
+<hr />
+<h5 id="Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_4">模块用途<a class="headerlink" href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion--_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>在规则二维空间中进一步融合点云与图像信息</li>
+<li>建模局部空间上下文关系，增强融合特征的空间一致性</li>
+<li>为后续检测头或其他下游网络提供高质量融合特征表示</li>
+<li>属于 IL-Fusion 的 <strong>Grid_level_Fusion-Level Fusion 阶段</strong></li>
+</ul>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion.forward" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">forward</span><span class="p">(</span><span class="n">grid_features</span><span class="p">)</span></code>
+
+<a href="#Grid_level_Fusion.network.il_fusion_conv2d_fusion.ILFusionConv2DFusion.forward" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>前向传播。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>grid_features</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>输入二维栅格融合特征，shape 为 (B, C_in, H, W)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor:
+输出二维融合特征，shape 为 (B, C_out, H, W)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Point_level_Fusion/" class="btn btn-neutral float-left" title="Point-level 融合概述"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../framework/" class="btn btn-neutral float-right" title="融合流程与接口设计">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Point_level_Fusion/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../framework/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

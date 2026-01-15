@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Point-level 融合概述 - IL-Fusion 融合模块文档</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/overrides.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Point-level \u878d\u5408\u6982\u8ff0";
+        var mkdocs_page_input_path = "Point_level_Fusion.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> IL-Fusion 融合模块文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">文档首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Point-level Fusion</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Point-level 融合概述</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#api">API 文档</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#image_point_sampling">image_point_sampling</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.operator.image_point_sampling">image_point_sampling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.operator.image_point_sampling.image_point_sampling">image_point_sampling</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_point_fc_align">il_fusion_point_fc_align</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align">il_fusion_point_fc_align</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign">ILFusionPointFCAlign</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_1">结构说明（按顺序）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_2">输入</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_3">输出</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_4">模块用途</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign.forward">forward</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_image_point_fc_align">il_fusion_image_point_fc_align</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align">il_fusion_image_point_fc_align</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign">ILFusionImagePointFCAlign</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_1">结构说明（按顺序）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_2">输入</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_3">输出</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_4">模块用途</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign.forward">forward</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_weight_fc">il_fusion_weight_fc</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc">il_fusion_weight_fc</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC">ILFusionWeightFC</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_1">结构说明（按顺序）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_2">输入</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_3">输出</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_4">模块用途</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC.forward">forward</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_muti">il_fusion_muti</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.operator.il_fusion_muti">il_fusion_muti</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.operator.il_fusion_muti.il_fusion_muti">il_fusion_muti</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#il_fusion_add">il_fusion_add</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.operator.il_fusion_add">il_fusion_add</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#Point_level_Fusion.operator.il_fusion_add.il_fusion_add">il_fusion_add</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Grid-level Fusion</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Grid_level_Fusion/">Grid-level 融合概述</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">IL-Fusion 框架</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../framework/">融合流程与接口设计</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">IL-Fusion 融合模块文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Point-level Fusion</li>
+      <li class="breadcrumb-item active">Point-level 融合概述</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="point-level-fusion">Point-level Fusion（点级融合）<a class="headerlink" href="#point-level-fusion" title="Permanent link">&para;</a></h1>
+<p>本阶段的作用是 <strong>在点级别完成图像特征与点云特征的精细对齐与融合</strong>，
+通过图像特征采样、点-图特征对齐、加权与融合操作，
+构建每个点对应的多模态融合特征，为后续网格级融合提供高质量输入。</p>
+<p>本阶段包含六个核心算子/网络：</p>
+<ol>
+<li>
+<p><strong>image_point_sampling</strong><br />
+   根据点在图像中的投影位置，从图像特征图中采样对应的图像特征。</p>
+</li>
+<li>
+<p><strong>il_fusion_point_fc_align</strong><br />
+   对点云特征进行全连接映射，使其通道维度与融合空间对齐。</p>
+</li>
+<li>
+<p><strong>il_fusion_image_point_fc_align</strong><br />
+   对采样得到的图像点特征进行全连接映射，与点云特征对齐到同一特征空间。</p>
+</li>
+<li>
+<p><strong>il_fusion_weight_fc</strong><br />
+   基于点特征与图像特征生成融合权重，用于调节不同模态对融合结果的贡献。</p>
+</li>
+<li>
+<p><strong>il_fusion_muti</strong><br />
+   通过逐元素乘法的方式，对点特征施加来自权重分支的调制，实现门控式融合。</p>
+</li>
+<li>
+<p><strong>il_fusion_add</strong><br />
+   对多模态点特征进行逐元素加法融合，得到最终的点级融合特征。</p>
+</li>
+</ol>
+<hr />
+<h2 id="api">API 文档<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<h3 id="image_point_sampling">image_point_sampling<a class="headerlink" href="#image_point_sampling" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Point_level_Fusion.operator.image_point_sampling"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="Point_level_Fusion.operator.image_point_sampling.image_point_sampling" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">image_point_sampling</span><span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">xy</span><span class="p">)</span></code>
+
+<a href="#Point_level_Fusion.operator.image_point_sampling.image_point_sampling" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>IL-Fusion 模块中的图像点位采样算子（Image Point Sampling Operator）。</p>
+<p>根据点云在图像坐标系中的投影位置，在图像特征图 Fi 上进行双线性插值采样，
+将二维图像特征映射为点级图像特征 F_i^(P)，用于后续跨模态融合。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>Fi</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>图像特征图张量，形状 (B, C, H, W)。
+- B: 批大小
+- C: 通道数
+- H: 图像高度
+- W: 图像宽度</p>
+              </div>
+            </li>
+            <li>
+              <b><code>xy</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>点在图像上的归一化坐标，形状 (B, N, 2)，
+坐标范围为 [-1, 1]，顺序为 (x, y)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor:
+点级图像特征张量，形状 (B, C, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_point_fc_align">il_fusion_point_fc_align<a class="headerlink" href="#il_fusion_point_fc_align" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Point_level_Fusion.network.il_fusion_point_fc_align"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign" class="doc doc-heading">
+            <code>ILFusionPointFCAlign</code>
+
+
+<a href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.nn.Module">Module</span></code></p>
+
+
+        <p>IL-Fusion 点云特征对齐模块（Point FC Align Operator）。</p>
+<p>该模块用于对点云特征 F_p 进行通道对齐与线性映射，使其与点位图像特征
+F_i^(P) 处于同一特征空间中，从而满足后续逐元素融合（Add / Gate）的
+维度一致性要求。</p>
+<p>其本质是一个由 <code>1×1</code> 卷积（等价于逐点全连接）构成的 MLP，
+不改变点的空间分布，仅在 <strong>通道维度</strong> 上进行可学习的线性变换。</p>
+<p>本模块属于 <strong>可学习算子</strong>，其参数在训练过程中根据融合监督信号更新。</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_1">结构说明（按顺序）<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_1" title="Permanent link">&para;</a></h5>
+<ol>
+<li><strong>Conv1d C_in → C_out, kernel=1</strong></li>
+<li>对每个点的特征进行线性映射，实现通道对齐。</li>
+<li><strong>BatchNorm1d（可选）</strong></li>
+<li>稳定训练过程，加速收敛。</li>
+<li><strong>ReLU 激活</strong></li>
+<li>引入非线性表达能力。</li>
+</ol>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_2">输入<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_2" title="Permanent link">&para;</a></h5>
+<p>Args:
+    point_features (torch.Tensor):
+        点云特征张量，shape 为 <strong>(B, C_in, N)</strong>
+        - B：batch size
+        - C_in：输入点云特征通道数
+        - N：点数量</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_3">输出<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_3" title="Permanent link">&para;</a></h5>
+<p>Returns:
+    torch.Tensor:
+        对齐后的点云特征张量，shape 为 <strong>(B, C_out, N)</strong></p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_4">模块用途<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign--_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>为 IL-Fusion 中的点–图像特征融合提供维度一致的点云特征表示</li>
+<li>消除不同 backbone / 不同模态带来的通道不一致问题</li>
+<li>属于 IL-Fusion 的 <strong>特征对齐阶段（Feature Alignment Stage）</strong></li>
+</ul>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign.forward" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">forward</span><span class="p">(</span><span class="n">point_features</span><span class="p">)</span></code>
+
+<a href="#Point_level_Fusion.network.il_fusion_point_fc_align.ILFusionPointFCAlign.forward" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>前向传播。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>point_features</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>输入点云特征，shape 为 (B, C_in, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor:
+对齐后的点云特征，shape 为 (B, C_out, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_image_point_fc_align">il_fusion_image_point_fc_align<a class="headerlink" href="#il_fusion_image_point_fc_align" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Point_level_Fusion.network.il_fusion_image_point_fc_align"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign" class="doc doc-heading">
+            <code>ILFusionImagePointFCAlign</code>
+
+
+<a href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.nn.Module">Module</span></code></p>
+
+
+        <p>IL-Fusion 点位图像特征对齐模块（Image-Point FC Align Operator）。</p>
+<p>该模块用于对点位图像特征 F_i^(P) 进行通道对齐与线性映射，
+将从二维图像特征图中采样得到的点级图像特征映射到与点云特征
+F_p 相同的特征维度空间，以满足后续逐元素融合与权重生成的
+维度一致性要求。</p>
+<p>其本质是一个由 <code>1×1</code> 卷积（等价于逐点全连接）构成的 MLP，
+仅作用于 <strong>点级特征通道维度</strong>，不引入任何几何或空间结构变化。</p>
+<p>本模块属于 <strong>可学习算子</strong>，其参数在训练过程中根据跨模态融合
+监督信号进行更新。</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_1">结构说明（按顺序）<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_1" title="Permanent link">&para;</a></h5>
+<ol>
+<li><strong>Conv1d C_in → C_out, kernel=1</strong></li>
+<li>对每个点对应的图像特征进行线性映射，实现通道对齐。</li>
+<li><strong>BatchNorm1d（可选）</strong></li>
+<li>稳定跨模态特征分布，缓解训练不稳定问题。</li>
+<li><strong>ReLU 激活</strong></li>
+<li>引入非线性表达能力，增强融合特征判别性。</li>
+</ol>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_2">输入<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_2" title="Permanent link">&para;</a></h5>
+<p>Args:
+    image_point_features (torch.Tensor):
+        点位图像特征张量，shape 为 <strong>(B, C_in, N)</strong>
+        - B：batch size
+        - C_in：输入图像特征通道数
+        - N：点数量（与点云特征一一对应）</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_3">输出<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_3" title="Permanent link">&para;</a></h5>
+<p>Returns:
+    torch.Tensor:
+        对齐后的点位图像特征张量，shape 为 <strong>(B, C_out, N)</strong></p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_4">模块用途<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign--_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>将二维图像特征映射为可与点云特征直接融合的点级表示</li>
+<li>消除 Image / LiDAR backbone 之间的通道维度差异</li>
+<li>为 IL-Fusion 后续的 Add / Gate / Weight 计算提供统一特征空间</li>
+<li>属于 IL-Fusion 的 <strong>特征对齐阶段（Feature Alignment Stage）</strong></li>
+</ul>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign.forward" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">forward</span><span class="p">(</span><span class="n">image_point_features</span><span class="p">)</span></code>
+
+<a href="#Point_level_Fusion.network.il_fusion_image_point_fc_align.ILFusionImagePointFCAlign.forward" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>前向传播。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>image_point_features</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>输入点位图像特征，shape 为 (B, C_in, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor:
+对齐后的点位图像特征，shape 为 (B, C_out, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_weight_fc">il_fusion_weight_fc<a class="headerlink" href="#il_fusion_weight_fc" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Point_level_Fusion.network.il_fusion_weight_fc"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC" class="doc doc-heading">
+            <code>ILFusionWeightFC</code>
+
+
+<a href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.nn.Module">Module</span></code></p>
+
+
+        <p>IL-Fusion 权重生成模块（Weight FC Operator）。</p>
+<p>该模块用于对点级融合特征进行非线性映射，生成用于跨模态门控融合的
+<strong>未归一化权重（weight logits）</strong>。这些权重刻画了在不同点位置上，
+图像特征或点云特征对最终融合结果的重要性。</p>
+<p>其本质是由多个 <code>1×1</code> 卷积层组成的 MLP，仅在特征通道维度上进行逐点
+线性变换，不引入任何空间或几何结构变化。权重的归一化与门控作用
+将在后续的 Gate / Multiply 算子中完成。</p>
+<p>本模块属于 <strong>可学习算子</strong>，其参数在训练过程中根据跨模态融合监督
+信号进行更新。</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_1">结构说明（按顺序）<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_1" title="Permanent link">&para;</a></h5>
+<ol>
+<li><strong>Conv1d C_in → C_hidden, kernel=1</strong></li>
+<li>对融合特征进行通道压缩与特征重组，提取用于权重预测的中间表示。</li>
+<li><strong>ReLU 激活</strong></li>
+<li>引入非线性映射能力，增强权重建模的表达能力。</li>
+<li><strong>Conv1d C_hidden → C_out, kernel=1</strong></li>
+<li>输出逐点权重的未归一化表示（logits）。</li>
+</ol>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_2">输入<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_2" title="Permanent link">&para;</a></h5>
+<p>Args:
+    fusion_features (torch.Tensor):
+        点级融合特征张量，shape 为 <strong>(B, C_in, N)</strong>
+        - B：batch size
+        - C_in：融合特征通道数
+        - N：点数量</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_3">输出<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_3" title="Permanent link">&para;</a></h5>
+<p>Returns:
+    torch.Tensor:
+        点级权重 logits 张量，shape 为 <strong>(B, C_out, N)</strong>
+        - C_out 通常为 1（标量权重），也可扩展为与特征通道数一致</p>
+<hr />
+<h5 id="Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_4">模块用途<a class="headerlink" href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC--_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>为 IL-Fusion 中的门控融合（Gate / Multiply）生成点级权重依据</li>
+<li>学习不同模态特征在不同空间位置上的相对重要性</li>
+<li>与后续 Gate 算子解耦，实现“权重生成 / 权重应用”的清晰算子划分</li>
+</ul>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC.forward" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">forward</span><span class="p">(</span><span class="n">fusion_features</span><span class="p">)</span></code>
+
+<a href="#Point_level_Fusion.network.il_fusion_weight_fc.ILFusionWeightFC.forward" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>前向传播。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>fusion_features</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>输入融合特征，shape 为 (B, C_in, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor:
+输出点级权重 logits，shape 为 (B, C_out, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_muti">il_fusion_muti<a class="headerlink" href="#il_fusion_muti" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Point_level_Fusion.operator.il_fusion_muti"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="Point_level_Fusion.operator.il_fusion_muti.il_fusion_muti" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">il_fusion_muti</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sigmoid_y</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+<a href="#Point_level_Fusion.operator.il_fusion_muti.il_fusion_muti" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>IL-Fusion 模块中的特征门控乘法算子（Multiply-Gate Operator）。</p>
+<p>实现跨模态融合中的逐点加权操作：对输入特征 x 与权重特征 y 逐元素相乘。
+当启用 <code>sigmoid_y</code> 时，会对 y 进行 Sigmoid 压缩到 [0, 1] 区间，用于门控控制。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>x</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>主输入特征张量，形状 (B, D, N)。
+- B: 批大小
+- D: 通道数
+- N: 点数量</p>
+              </div>
+            </li>
+            <li>
+              <b><code>y</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>权重特征张量，形状 (B, D, N) 或 (B, 1, N)。
+- 当 y 为单通道时，会广播匹配 x 的形状</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sigmoid_y</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>是否对 y 施加 Sigmoid 激活（默认 False）。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor: 加权融合结果张量，形状与 x 相同 (B, D, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h3 id="il_fusion_add">il_fusion_add<a class="headerlink" href="#il_fusion_add" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="Point_level_Fusion.operator.il_fusion_add"></a>
+    <div class="doc doc-contents first">
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="Point_level_Fusion.operator.il_fusion_add.il_fusion_add" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">il_fusion_add</span><span class="p">(</span><span class="n">Fp</span><span class="p">,</span> <span class="n">Fi</span><span class="p">,</span> <span class="n">apply_tanh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+<a href="#Point_level_Fusion.operator.il_fusion_add.il_fusion_add" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>IL-Fusion 模块中的跨模态特征融合算子（加法 + 可选 Tanh 激活）。</p>
+<p>对点云特征 Fp 与图像特征 Fi 进行逐元素相加融合，可选择是否使用 Tanh 激活进行非线性约束。
+该算子用于 Li-Fusion 核心模块中的主融合步骤。</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>Fp</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>点云特征张量，形状 (B, D, N)。
+- B: 批大小
+- D: 通道数
+- N: 点数量</p>
+              </div>
+            </li>
+            <li>
+              <b><code>Fi</code></b>
+                  (<code><span title="torch.Tensor">Tensor</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>图像特征张量，形状 (B, D, N)。
+- 与 Fp 具有相同维度</p>
+              </div>
+            </li>
+            <li>
+              <b><code>apply_tanh</code></b>
+                  (<code>bool</code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>是否应用 tanh 激活，默认 True。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="torch.Tensor">Tensor</span></code>
+              –
+              <div class="doc-md-description">
+                <p>torch.Tensor: 融合输出特征张量，形状 (B, D, N)。</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="文档首页"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Grid_level_Fusion/" class="btn btn-neutral float-right" title="Grid-level 融合概述">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Grid_level_Fusion/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
